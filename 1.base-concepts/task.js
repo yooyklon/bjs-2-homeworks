@@ -30,24 +30,28 @@ function calculateTotalMortgage(percent, contribution, amount, date) {
   let totalDate;
   let current;
   let months;
-  percent = Number(percent);
-  contribution = Number(contribution);
-  amount = Number(amount);
+  let interestRate;
+  percent = parseInt(percent);
+  interestRate = percent / (100 * 12);
+  contribution = parseInt(contribution);
+  amount = parseInt(amount);
 
-  if (percent > 60 || percent < 1) {
-    return 'Пожалуйста введите процентную ставку от 1 до 60';
-  } else if (contribution < 0 || contribution > amount) {
-    return 'Пожалуйчта введите корректный первоначальный взнос!';
-  } else if (amount <= 0) {
-    return 'Пожалуйчта введите корректную сумму кредита!';
+  if (Number.isNaN(percent)) {
+    return 'Параметр "Процентная ставка" содержит неправильное значение "test"';
+  } else if (Number.isNaN(contribution)) {
+    return 'Параметр "Начальный взнос" содержит неправильное значение "test"';
+  } else if (Number.isNaN(amount)) {
+    return 'Параметр "Общая стоимость" содержит неправильное значение "test"';
   }
 
   amountBody = amount - contribution;
   totalDate = new Date(date);
   current = new Date();
   months = (totalDate.getFullYear() - current.getFullYear())*12 + (totalDate.getMonth() - current.getMonth());
-  monthlyPay = amountBody * (percent/(100 * 12) + (percent/(100 * 12) / (((1 + percent/(100 * 12)) ** months) - 1)));
+  monthlyPay = amountBody * (interestRate + (interestRate / (((1 + interestRate) ** months) - 1)));
   totalAmount = (monthlyPay * months);
 
   return Number(totalAmount.toFixed(2));
 }
+let x = calculateTotalMortgage('10', '0', '50000', '11.16.2022');
+console.log(x);
