@@ -6,11 +6,6 @@ function compareArrays(arr1, arr2) {
   return result;
 }
 
-let arr1 = [1, 2, 3];
-let arr2 = [1, 2, 3, 4];
-let x = compareArrays(arr1, arr2);
-console.log(x);
-
 function advancedFilter(arr) {
   let resultArr;
 
