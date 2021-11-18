@@ -30,31 +30,34 @@ function worker(arr) {
   return sum;
 }
 
+let arrOfArr = [[10,10,11], [20,10]];
+
 function makeWork(arrOfArr, func) {
-  let max = 0;
-  let min = 0;
-  let result;
+  let max;
+  let sum;
+  max = 0;
 
   for (let i = 0; i < arrOfArr.length; i++) {
-    result = func(arrOfArr[i]);
-    if (result > max) {
-      max = result;
-    } else if (result < min) {
-      min = result
+    sum = func(arrOfArr[i]);
+    if (sum > max) {
+      max = sum;
     }
   }
   return max;
 }
 
 function worker2(arr) {
-  let min = Infinity;
   let max = -Infinity;
+  let min = Infinity;
  for (let i = 0; i < arr.length; i++) {
    if (arr[i] < min) {
      min = arr[i];
-   } else if (arr[i] > max) {
+   } 
+   if (arr[i] > max) {
      max = arr[i];
    }
  }
  return max - min;
 }
+
+makeWork(arrOfArr, worker2);
