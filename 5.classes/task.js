@@ -100,47 +100,72 @@ class Student {
   this.name = name;
   this.gender = gender;
   this.age = age;
+  this.marks = [];
  }
 
  setSubject(subjectName) {
   this.subject = subjectName;
  }
 
+ // addMark(mark, subjectName) {
+ //  if (mark < 1 || mark > 5) {
+ //   console.log('Ошибка, оценка должна быть от 1 до 5');
+ //   return;
+ //  }
+ //  if (subjectName in this) {
+ //   this[subjectName].push(mark);
+ //  } else {
+ //   this[subjectName] = [];
+ //   this[subjectName].push(mark);
+ //  }
+ // }
+
  addMark(mark, subjectName) {
+  let index;
   if (mark < 1 || mark > 5) {
    console.log('Ошибка, оценка должна быть от 1 до 5');
    return;
   }
-  if (subjectName in this) {
-   this[subjectName].push(mark);
+  index = this.marks.findIndex(element => subjectName in element);
+  if (index != -1 && !isNaN(index)) {
+   this.marks[index][subjectName].push(mark);
   } else {
-   this[subjectName] = [];
-   this[subjectName].push(mark);
+   this.marks.push({[subjectName]: [mark]});
   }
  }
 
  addMarks(subjectName, ...marks) {
-  if (subjectName in this) {
-   for(let i =0; i < marks.length; i++) {
-    this[subjectName].push(marks[i]);
+  let index;
+  index = this.marks.findIndex(element => subjectName in element);
+  if (index != -1 && !isNaN(index)) {
+   for (let i = 0; i < marks.length; i++) {
+    this.marks[index][subjectName].push(marks[i]);
    }
   } else {
-   this[subjectName] = [];
-   for(let i = 0; i < marks.length; i++) {
-    this[subjectName].push(marks[i]);
-   }
+    this.marks.push({[subjectName]: [...marks]});
   }
  }
 
- getAverage(...subject) {
-  
+ getAverage() {
+  let sum = 0;
+  for (let i = 0; i < this.marks.length; i++) {
+   sum += this.getAverageBySubject(Object.keys(this.marks[i]).join(''));
+  }
+  return +(sum / this.marks.length).toFixed(3);
  }
 
  getAverageBySubject(subject) {
-  let result = this[subject].reduce(function(sum, element) {
-   return sum + element;
-  }, 0);
-  return result / this[subject].length;
+  let sum;
+  let index;
+  for (let i = 0; i < this.marks.length; i++) {
+   if (subject in this.marks[i]) {
+    index = i;
+    sum = this.marks[i][subject].reduce(function(sum, element) {
+     return sum + element;
+    }, 0);
+   }
+  }
+  return sum / this.marks[index][subject].length;
  }
 
  exclude(reason) {
