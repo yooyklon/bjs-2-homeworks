@@ -8,11 +8,10 @@ function parseCount(num) {
 
 function validateCount(num) {
  try {
-   num = parseCount(num);
+   return parseCount(num);
  } catch(e) {
   return e;
  }
- return num;
 }
 
 class Triangle {
@@ -20,20 +19,18 @@ class Triangle {
   this.a = a;
   this.b = b;
   this.c = c;
-    if ((this.a + this.b < c || (this.a + this.c) < this.b || (this.c + this.a) < this.b || (this.c + this.b) < this.a)) {
+    if ((a + b < c || (a + c) < b || (c + a) < b || (c + b) < a)) {
      throw new Error('Треугольник с такими сторонами не существует');
     }
  }
 
  getPerimeter() {
-   this.P = this.a + this.b + this.c;
-   return this.P;
+   return this.a + this.b + this.c;
  }
 
  getArea() {
-   let p = this.P / 2;
-   this.S = +(Math.sqrt(p * (p - this.a) * (p - this.b) * (p - this.c))).toFixed(3);
-   return this.S;
+   let p = this.getPerimeter() / 2;
+   return +(Math.sqrt(p * (p - this.a) * (p - this.b) * (p - this.c))).toFixed(3);
  }
 }
 
